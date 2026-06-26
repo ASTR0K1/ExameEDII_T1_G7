@@ -27,6 +27,7 @@ void pesquisarPorPrefixo(tst *raiz, char *prefixo); //Free
 void guardarHistorico(char *utilizador, char *pesquisa); //Free
 void adicionarFavorito(char *utilizador, char *palavra); //Premium
 void listarFavoritos(char *utilizador); //Premium 
+void listarHistorico(char *utilizador); //Free
 void removerFavorito(char *utilizador, char *palavraRemover); //Premium
 
 tst *doingSum(tst* trie);

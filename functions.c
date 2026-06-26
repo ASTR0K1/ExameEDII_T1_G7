@@ -353,6 +353,7 @@ void menuDicionario(tst *raiz, char *username, int tipoConta)
         printf("4 - Adicionar aos favoritos (Premium)\n");
         printf("5 - Listar favoritos (Premium)\n");
         printf("6 - Remover favorito (Premium)\n");
+        printf("7 - Listar historico (Premium)\n");
         printf("0 - Logout\n");
         printf("Escolha: ");
         scanf("%d", &opcao);
@@ -452,6 +453,17 @@ void menuDicionario(tst *raiz, char *username, int tipoConta)
                 }
                 removerFavorito(username, palavra);
                 printf("Removido (se existia).\n");
+                break;
+            }
+
+            case 7:
+            { 
+                if (!temPermissao(tipoConta, Userpremium))
+                {
+                    printf("Funcionalidade exclusiva para contas Premium.\n");
+                    break;
+                }
+                void listarHistorico(utilizador);
                 break;
             }
 
@@ -629,6 +641,40 @@ void removerFavorito(char *utilizador, char *palavraRemover)
     remove("ficheiros/favoritos.txt");
     rename("ficheiros/temp.txt", "ficheiros/favoritos.txt");
 }
+
+void listarHistorico(char *utilizador)
+    {
+        FILE *ficheiro;
+        char nome[50];
+        char palavra[100];
+        int encontrou = 0;
+
+        ficheiro = fopen("ficheiros/historico.txt", "r");
+
+        if (ficheiro == NULL)
+        {
+            printf("Nenhum histórico encontrado.\n");
+            return;
+        }
+
+        printf("HISTÓRICO de %s:\n", utilizador);
+
+        while (fscanf(ficheiro, "%49[^;];%99[^\n]\n", nome, palavra) == 2)
+        {
+            if (strcmp(nome, utilizador) == 0)
+            {
+                printf("%s\n", palavra);
+                encontrou = 1;
+            }
+        }
+
+        if (!encontrou)
+        {
+            printf("Não existem pesquisas registadas.\n");
+        }
+
+        fclose(ficheiro);
+    }
 
 //
 
